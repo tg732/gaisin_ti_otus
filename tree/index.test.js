@@ -18,6 +18,10 @@ beforeEach(() => {
 	script.showBranch.str = ''
 });
 
+beforeAll((done) => {
+	script.server.close(() => done())
+})
+
 test('showTree shows correct result for tree with different levels of node', () => {
 	output = "1\n├──2\n|  └──3\n|  └──4\n└──5\n   └──6\n      └──7\n      └──8\n"
 
