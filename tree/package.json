@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "node index.js"
+    "test": "jest",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
     "url": "gaisin-timur-otus"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^27.5.1"
+  }
 }
