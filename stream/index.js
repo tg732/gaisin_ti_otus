@@ -61,6 +61,22 @@ async function sortAndWriteToFile(arr, tmpFileNames) {
   arr.length = 0;
 }
 
+async function readAll(tmpFileNames, fileName) {
+  var new_liner = require('./liner')
+  const resultFileName = `${fileName.split('.txt')[0]}-sorted.txt`;
+  const file = fs.createWriteStream(resultFileName, { highWaterMark: BUFFER_CAPACITY });
+  
+  tmpFileNames.forEach(element => {
+	let readStream = fs.createReadStream(element, { highWaterMark: BUFFER_CAPACITY })
+	readStream.pipe(new_liner) 
+  });
+  new_liner.on('readable', function () {
+	while (null !== (line = new_liner.read())) {
+		console.log(line)
+	}
+})
+}
+
 // считывание построчно и запись порциями в несколько файлов
 async function writeToFewFiles(liner) {
 	let line
@@ -79,17 +95,18 @@ async function writeToFewFiles(liner) {
 			}
 		}
 	}
-	if (partArr.length > 0) {
+	/*if (partArr.length > 0) {
 		await sortAndWriteToFile(partArr, tmpFileNames);
-	}
+	}*/
+	//await readAll(tmpFileNames, "./num_file.txt")
 	return 0;
 }
 
-function main() {
-	var liner = require('./liner')
-	var readStream = fs.createReadStream('./num_file.txt'/*, { start:0, end:52428800, encoding: 'utf8' }*/)
+async function main() {
+	await writeFileWithNum()
+	let liner = require('./liner')
+	let readStream = fs.createReadStream('./num_file.txt'/*, { start:0, end:52428800, encoding: 'utf8' }*/)
 	readStream.pipe(liner)
-
 	liner.on('readable', function () {
 		writeToFewFiles(liner).then((num) => {
 			console.log("That's all!")
@@ -103,7 +120,9 @@ server.listen(port, hostname, () => {
 		console.log('done!')
 	})*/
 	
-	main()
+	main().then( value => {
+		console.log('done!')
+	})
 })
 
 module.exports = {
