@@ -1,0 +1,63 @@
+<!doctype html>
+
+<head>
+  <!-- стили карты -->
+  <link
+      rel="stylesheet"
+      href="/leaflet.css"
+    />
+    <!-- скрипт карты -->
+    <script
+      src="/leaflet.js"
+    ></script>
+    <!-- наши стили -->
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- контейнер для карты -->
+  <div id="map"></div>
+  <!-- кнопка для вызова функции -->
+  <button id="my_position">My Position</button>
+  <!-- наш скрипт-модуль -->
+  <script src="/script.js" type="module"></script>
+<form name="publish">
+  <input type="text" name="message" maxlength="50"/>
+  <input type="submit" value="Send"/>
+</form>
+
+<div id="messages"></div>
+
+<script>
+let url = 'ws://localhost:8080/ws'
+
+let socket = new WebSocket(url);
+
+// отправка сообщения из формы
+document.forms.publish.onsubmit = function() {
+  let outgoingMessage = this.message.value;
+
+  socket.send(outgoingMessage);
+  return false;
+};
+
+// прослушка входящих сообщений
+socket.onmessage = function(event) {
+  let incomingMessage = event.data;
+  showMessage(incomingMessage);
+};
+// socket.addEventListener('message', (event) => {
+//
+// })
+
+socket.onclose = event => console.log(`Closed ${event.code}`);
+
+// отображение информации в div#messages
+function showMessage(message) {
+  let messageElem = document.createElement('div');
+  messageElem.textContent = message;
+  document.getElementById('messages').prepend(messageElem);
+}
+</script>
+
+
+</body>
