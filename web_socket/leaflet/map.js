@@ -10,7 +10,11 @@ export function getMap(position, tooltip) {
   if (map === null) {
     // второй аргумент, принимаемый методом setView - это масштаб (zoom)
     map = L.map('map').setView(position, 15)
-  } else return
+  } else {
+    map.off();
+    map.remove();
+    map = L.map('map').setView(position, 15)
+  }
 
   // что-то типа рекламы
   // без этого карта работать не будет

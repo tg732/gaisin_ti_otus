@@ -3,13 +3,15 @@ import { getMap } from './map.js'
 
 // находим кнопку и добавляем к ней обработчик
 document.getElementById('my_position').onclick = () => {
-  navigator.geolocation.getCurrentPosition(success, error, {
+  /*navigator.geolocation.getCurrentPosition(success, error, {
     enableHighAccuracy: true
-  })
-  //success([55,55])
+  })*/
+  let lat = 54 + Math.random()
+  let long = 56 + Math.random()
+  success({latitude: lat, longitude: long})
 }
 
-function success({ coords }) {
+function success( coords ) {
   const { latitude, longitude } = coords
   const currentPosition = [latitude, longitude]
   console.log(currentPosition)
