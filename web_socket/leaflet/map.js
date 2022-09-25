@@ -1,11 +1,11 @@
 // создаем локальные переменные для карты и маркера
 // каждый модуль имеет собственное пространство имен
-let map = null
+var map = null
 let marker = null
 
 // функция принимает позицию - массив с широтой и долготой
 // и сообщение, отображаемое над маркером (tooltip)
-export function getMap(position, tooltip) {
+function getMap(position, tooltip) {
   // если карта не была инициализирована
   if (map === null) {
     // второй аргумент, принимаемый методом setView - это масштаб (zoom)
@@ -25,4 +25,15 @@ export function getMap(position, tooltip) {
 
   // добавляем маркер с сообщением
   L.marker(position).addTo(map).bindPopup(tooltip).openPopup()
+}
+
+// функция для отрисовки всех координат на карте
+function setRoute(geojson) {
+  // считываем массив координат из объекта
+  coordinates = geojson.features[0].geometry.coordinates
+
+  // отображаем ломаную из координат
+  L.polyline([
+    coordinates
+  ]).addTo(map);
 }
