@@ -1,5 +1,3 @@
-const http = require('http');
-const fs = require('fs');
 const ws = new require('ws');
 var express = require("express");
 var app = express();
@@ -8,8 +6,6 @@ const port = 8080;
 app.use(express.static(__dirname + "/leaflet"));
 
 const wss = new ws.Server({noServer: true});
-
-const clients = new Set();
 
 app.get('/', (req, res) => {
     res.sendFile('./index.html', { root: __dirname });
@@ -38,7 +34,6 @@ var geojson = {
 };
 
 function onSocketConnect(ws) {
-  clients.add(ws);
   log(`новое подключение`);
 
   ws.on('message', function(data, isBinary) {
@@ -52,28 +47,25 @@ function onSocketConnect(ws) {
     geojson_str = JSON.stringify(geojson)
     fs.writeFile('coord.geojson', geojson_str, 'utf8', function () {
       // отправляем маршрут в виде geojson-строки на клиент
-      for(let client of clients) {
-        client.send(geojson_str);
-      }
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === ws.OPEN) {
+          client.send(geojson_str);
+        }
+      });
     });
   });
 
   ws.on('close', function() {
     log(`подключение закрыто`);
-    clients.delete(ws);
   });
 }
 
 let log;
-if (!module.parent) {
+if (require.main === module) {
   log = console.log;
-  //http.createServer(app).listen(8080);
 } else {
-  // для размещения на javascript.info
   log = function() {};
-  // log = console.log;
   exports.accept = accept;
 }
-
 
 app.listen(port, () => console.log(`listening on port ${port}!`));
