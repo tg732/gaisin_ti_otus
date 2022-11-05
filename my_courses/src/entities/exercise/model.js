@@ -1,10 +1,12 @@
 const { Schema } = require('mongoose')
 
 module.exports = (mongoose) => {
-  const Course = new Schema({
+  const Exercise = new Schema({
     name: { type: String, required: true, index: true},
     desc: { type: String, required: true},
+    files: { type: String },
+    courseId: { type: String, required: true }
   }, { autoIndex: true });
 
-  return mongoose.model('Course', Course)
+  return mongoose.model('Exercise', Exercise)
 }

@@ -1,10 +1,10 @@
 const { Schema } = require('mongoose')
 
 module.exports = (mongoose) => {
-  const User = new Schema({
+  const Login = new Schema({
     name: { type: String, required: true, index: true},
-    age: { type: Number, min: 6, index: true },
+    password: { type: String, required: true },
   }, { autoIndex: true });
 
-  return mongoose.model('User', User)
+  return mongoose.model('Login', Login)
 }

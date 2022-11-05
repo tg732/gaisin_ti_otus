@@ -1,31 +1,37 @@
 module.exports = {
-  register(express, userInstance) {
+  register(express, courseInstance) {
     
-    express.post('/user/', async (req, res) => {
+    express.post('/course/', async (req, res) => {
       console.log(req.query)
-      const instance = await userInstance.create(req.query)
+      const instance = await courseInstance.create(req.query)
       
       res.send({ success: true, data: { id: instance._id.toString() } })
     });
 
-    express.get('/user/:id', async (req, res) => {
+    express.get('/course/:id', async (req, res) => {
       console.log(req.params.id)
-      const instance = await userInstance.findOneById(req.params.id)
+      const instance = await courseInstance.findOneById(req.params.id)
 
       res.send({ success: true, data: instance })
     });
 
-    express.put('/user/:id', async (req, res) => {
-      const instance = await userInstance.updateOneById(req.params.id, req.body)
+    express.put('/course/:id', async (req, res) => {
+      const instance = await courseInstance.updateOneById(req.params.id, req.body)
 
       res.send({ success: true, data: instance })
     });
 
 
-    express.delete('/user/:id', async (req, res) => {
-      const instance = await userInstance.deleteOneById(req.params.id)
+    express.delete('/course/:id', async (req, res) => {
+      const instance = await courseInstance.deleteOneById(req.params.id)
 
       res.send({ success: true, data: instance })
+    });
+
+    express.get('/course/search', async (req, res) => {
+      const names = await courseInstance.search(req.body.message)
+
+      res.send({ success: true, data: { names } })
     });
   }
 }

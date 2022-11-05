@@ -1,6 +1,6 @@
 const model = require('./model')
 
-module.exports = class CourseInstance {
+module.exports = class ExerciseInstance {
   constructor(mongoose) {
     this.mongoose = mongoose
     this.model = model(mongoose)
@@ -14,22 +14,17 @@ module.exports = class CourseInstance {
     return this.model.find()
   }
 
-  create(course) {
-    const instance = new this.model(course)
+  create(exercise) {
+    const instance = new this.model(exercise)
 
     return instance.save()
   }
 
-  updateOneById(id, course) {
-    return this.model.updateOne({ _id: id }, { $set: course })
+  updateOneById(id, exercise) {
+    return this.model.updateOne({ _id: id }, { $set: exercise })
   }
 
   deleteOneById(id) {
     return this.model.deleteOne({ _id: id })
-  }
-
-  search(name) {
-    console.log(name)
-    return this.model.find({"name": {$regex : name} })
   }
 }

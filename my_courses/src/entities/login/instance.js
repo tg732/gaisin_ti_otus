@@ -1,6 +1,6 @@
 const model = require('./model')
 
-module.exports = class UserInstance {
+module.exports = class LoginInstance {
   constructor(mongoose) {
     this.mongoose = mongoose
     this.model = model(mongoose)
@@ -14,14 +14,14 @@ module.exports = class UserInstance {
     return this.model.find()
   }
 
-  create(user) {
-    const instance = new this.model(user)
+  create(login) {
+    const instance = new this.model(login)
 
     return instance.save()
   }
 
-  updateOneById(id, user) {
-    return this.model.updateOne({ _id: id }, { $set: user })
+  updateOneById(id, login) {
+    return this.model.updateOne({ _id: id }, { $set: login })
   }
 
   deleteOneById(id) {
