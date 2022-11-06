@@ -5,7 +5,7 @@ module.exports = (mongoose) => {
     name: { type: String, required: true, index: true},
     desc: { type: String, required: true},
     files: { type: String },
-    courseId: { type: String, required: true }
+    course: { type: String, required: true }
   }, { autoIndex: true });
 
   return mongoose.model('Exercise', Exercise)

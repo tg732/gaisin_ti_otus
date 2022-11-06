@@ -2,15 +2,14 @@ module.exports = {
   register(express, exerciseInstance) {
     
     express.post('/exercise/', async (req, res) => {
-      console.log(req.query)
-      const instance = await exerciseInstance.create(req.query)
+      const instance = await exerciseInstance.create(req.body)
       
       res.send({ success: true, data: { id: instance._id.toString() } })
     });
 
     express.get('/exercise/:id', async (req, res) => {
-      console.log(req.params.id)
-      const instance = await exerciseInstance.findOneById(req.params.id)
+      var courseId = req.params.id
+      const instance = await exerciseInstance.findAll(courseId)
 
       res.send({ success: true, data: instance })
     });

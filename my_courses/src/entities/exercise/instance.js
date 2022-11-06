@@ -10,8 +10,8 @@ module.exports = class ExerciseInstance {
     return this.model.findOne({ _id: id })
   }
 
-  findAll() {
-    return this.model.find()
+  findAll(courseId) {
+    return this.model.find({"course": courseId })
   }
 
   create(exercise) {

@@ -16,4 +16,8 @@ module.exports = class CommentInstance {
     console.log(message)
     return this.model.find({"message": {$regex : message} })
   }
+
+  findAll() {
+    return this.model.find()
+  }
 }

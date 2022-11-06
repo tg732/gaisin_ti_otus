@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Занятие по курсу</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+    <meta property="og:title" content="Заголовок страницы в OG">
+    <meta property="og:description" content="Описание страницы в OG">
+    <meta property="og:image" content="https://example.com/image.jpg">
+    <meta property="og:url" content="https://example.com/">
+  </head>
+  <body>
+    <header>
+      <h1>Курсы по музыке</h1>
+      <p></p>
+    </header>
+    <main>
+      <article>
+        <section>
+			<h2>Каталог занятий</h2>
+			<p></p>
+			<table id="exerciseTable">
+			<thead>
+				 <tr>
+					 <th>Название занятия</th>
+					 <th>Описание</th>
+					 <th>Название курса</th>
+				 </tr>
+			 </thead>
+				 <tbody>
+					 
+				 </tbody>
+			</table>
+			<p></p>
+        </section>
+		<section>
+			<h2>Комментарии</h2>
+			<p></p>
+			<table id="commentTable">
+			<thead>
+				 <tr>
+					 <th>Имя пользователя</th>
+					 <th>Комментарий</th>
+				 </tr>
+			 </thead>
+				 <tbody>
+					 
+				 </tbody>
+			</table>
+			<p></p>
+        </section>
+        <section>
+			<h2>Добавить комментарий</h2>
+			<form id="commentForm">
+				<label for="user">
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="user" placeholder="Пользователь" required>
+				<label for="message">
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="message" placeholder="Описание" required>
+				<input id="courseInput" type="hidden" name="course" value="" required>
+				<input type="submit">
+			</form>
+        </section>
+      </article>
+    </main>
+  </body>
+  
+  <script>
+	$(document).ready(function () {
+	var myParam = location.search.split('course=')[1]
+	$('#courseInput').val(myParam)
+        $("#commentForm").submit(function (e) {
+           e.preventDefault();
+            var form_data = $(this).serialize(); 
+			console.log(form_data)
+            $.ajax({
+                type: "POST", 
+                url: "/comment",
+                data: form_data,
+                success: function () {
+                    alert("Комментарий добавлен!");
+                }
+            });
+        });
+		
+		$.ajax({
+			url: '/exercise/'+myParam,         
+			method: 'get',             
+			dataType: 'json',   
+			success: function(result){ 
+				data = result.data
+				
+				for(i=0; i < data.length; i++){
+				$('#exerciseTable tbody').append('<tr><td>' + data[i].name + '</td><td>' + data[i].desc + '</td><td>' + data[i].course + '</td></tr>');
+				}
+				
+			}
+		});
+		
+		$.ajax({
+			url: '/comment',         
+			method: 'get',             
+			dataType: 'json',  
+			success: function(result){ 
+				data = result.data
+				console.log(data)
+				for(i=0; i < data.length; i++){
+				$('#commentTable tbody').append('<tr><td>' + data[i].user + '</td><td>' + data[i].message + '</td></tr>');
+				}
+				
+			}
+		});
+    });   
+	
+  </script>
+</html>

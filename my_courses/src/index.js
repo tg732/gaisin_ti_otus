@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const path = require('path');
+const flash = require('connect-flash');
 
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
@@ -12,6 +13,7 @@ app.use(session({
 	saveUninitialized: true
 }));
 app.use(express.static(path.join(__dirname, 'view')));
+app.use(flash())
 
 
 const { mognoose } = require('./db')
