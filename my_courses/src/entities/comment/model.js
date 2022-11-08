@@ -1,6 +1,8 @@
-const { Schema } = require('mongoose')
+//import { Schema } from 'mongoose'
+import pkg from 'mongoose';
+const { Schema } = pkg;
 
-module.exports = (mongoose) => {
+export const model = (mongoose) => {
   const Comment = new Schema({
     user: { type: String, required: true, index: true },
     course: { type: String, required: true, index: true },

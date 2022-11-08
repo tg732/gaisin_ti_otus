@@ -1,10 +1,10 @@
-const UserInstance = require('./instance')
-const userRoutes = require('./routes')
+import UserInstance from './instance.js'
+import {userRoutes} from './routes.js'
 
-module.exports = {
-  async register(express, mongoose) {
-    const userInstance = new UserInstance(mongoose)
+async function register(express, mongoose) {
+  const userInstance = new UserInstance(mongoose)
 
-    userRoutes.register(express, userInstance)
-  }
+  userRoutes(express, userInstance)
 }
+
+export {register}

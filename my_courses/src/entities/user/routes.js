@@ -1,5 +1,5 @@
-module.exports = {
-  register(express, userInstance) {
+export const userRoutes = 
+  function register(express, userInstance) {
     
     express.post('/user/', async (req, res) => {
       const instance = await userInstance.create(req.body)
@@ -27,4 +27,3 @@ module.exports = {
       res.send({ success: true, data: instance })
     });
   }
-}

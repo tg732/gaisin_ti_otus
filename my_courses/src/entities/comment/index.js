@@ -1,10 +1,9 @@
-const CommentInstance = require('./instance')
-const commentRoutes = require('./routes')
+import CommentInstance from './instance.js'
+import {commentRoutes} from './routes.js'
 
-module.exports = {
-  async register(express, mongoose) {
-    const commentInstance = new CommentInstance(mongoose)
+async function register(express, mongoose) {
+  const commentInstance = new CommentInstance(mongoose)
 
-    commentRoutes.register(express, commentInstance)
-  }
+  commentRoutes(express, commentInstance)
 }
+export {register}

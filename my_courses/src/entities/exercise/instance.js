@@ -1,6 +1,6 @@
-const model = require('./model')
+import {model} from './model.js'
 
-module.exports = class ExerciseInstance {
+export default class ExerciseInstance {
   constructor(mongoose) {
     this.mongoose = mongoose
     this.model = model(mongoose)

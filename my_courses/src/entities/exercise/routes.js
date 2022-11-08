@@ -1,5 +1,5 @@
-module.exports = {
-  register(express, exerciseInstance) {
+export const exerciseRoutes = 
+  function register(express, exerciseInstance) {
     
     express.post('/exercise/', async (req, res) => {
       const instance = await exerciseInstance.create(req.body)
@@ -27,4 +27,3 @@ module.exports = {
       res.send({ success: true, data: instance })
     });
   }
-}

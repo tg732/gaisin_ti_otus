@@ -1,6 +1,7 @@
-const { Schema } = require('mongoose')
+import pkg from 'mongoose';
+const { Schema } = pkg;
 
-module.exports = (mongoose) => {
+export const model = (mongoose) => {
   const Login = new Schema({
     name: { type: String, required: true, index: true},
     password: { type: String, required: true },

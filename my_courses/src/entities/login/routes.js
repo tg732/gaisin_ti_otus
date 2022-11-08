@@ -1,7 +1,13 @@
-const path = require('path');
-var ExpressBrute = require('express-brute');
+import path from 'path'
+import ExpressBrute from 'express-brute'
 var store = new ExpressBrute.MemoryStore();
 var bruteforce = new ExpressBrute(store);
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 var failCallback = function (req, res, next, nextValidRequestDate) {
   console.log(nextValidRequestDate)
@@ -26,8 +32,8 @@ var userBruteforce = new ExpressBrute(store, {
   handleStoreError: handleStoreError
 });
 
-module.exports = {
-  register(express, userInstance) {
+export const loginRoutes = 
+  function register(express, userInstance) {
 
     express.get('/', function(request, response) {
       response.sendFile(path.join(__dirname + '../../../view/login.html'));
@@ -81,4 +87,3 @@ module.exports = {
       }
     });
   }
-}

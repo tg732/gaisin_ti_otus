@@ -1,8 +1,15 @@
-const express = require('express');
+import express from 'express';
+//const {express} = pkg;
 const app = express();
-const session = require('express-session');
-const path = require('path');
-const flash = require('connect-flash');
+import session from 'express-session'
+import path from 'path'
+import flash from 'connect-flash'
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
@@ -16,21 +23,21 @@ app.use(express.static(path.join(__dirname, 'view')));
 app.use(flash())
 
 
-const { mognoose } = require('./db')
-const comment = require('./entities/comment')
-const user = require('./entities/user')
-const login = require('./entities/login')
-const course = require('./entities/course')
-const exercise = require('./entities/exercise')
+import {mongooseStart} from './db/mognoose.js'
+import {register as comment} from './entities/comment/index.js'
+import {register as user} from './entities/user/index.js'
+import {register as login} from './entities/login/index.js'
+import {register as course} from './entities/course/index.js'
+import {register as exercise} from './entities/exercise/index.js'
 
 ;(async() => {
-  const mognooseClient = await mognoose.start()
+  const mongooseClient = await mongooseStart()
 
-  comment.register(app, mognooseClient)
-  user.register(app, mognooseClient)
-  login.register(app, mognooseClient)
-  course.register(app, mognooseClient)
-  exercise.register(app, mognooseClient)
+  comment(app, mongooseClient)
+  user(app, mongooseClient)
+  login(app, mongooseClient)
+  course(app, mongooseClient)
+  exercise(app, mongooseClient)
 
   app.listen(8080, (err) => {
     if (err) {

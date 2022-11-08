@@ -1,5 +1,5 @@
-const mognoose = require('./mognoose')
+/*const mognoose = require('./mognoose')
 
 module.exports = {
   mognoose
-}
+}*/

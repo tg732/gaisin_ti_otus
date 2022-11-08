@@ -1,10 +1,10 @@
-const CourseInstance = require('./instance')
-const courseRoutes = require('./routes')
+import CourseInstance from './instance.js'
+import {courseRoutes} from './routes.js'
 
-module.exports = {
-  async register(express, mongoose) {
-    const courseInstance = new CourseInstance(mongoose)
+async function register(express, mongoose) {
+  const courseInstance = new CourseInstance(mongoose)
 
-    courseRoutes.register(express, courseInstance)
-  }
+  courseRoutes(express, courseInstance)
 }
+
+export {register}
