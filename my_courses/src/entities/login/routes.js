@@ -32,8 +32,7 @@ var userBruteforce = new ExpressBrute(store, {
   handleStoreError: handleStoreError
 });
 
-export const loginRoutes = 
-  function register(express, userInstance) {
+export const loginRoutes = (express, userInstance) => {
 
     express.get('/', function(request, response) {
       response.sendFile(path.join(__dirname + '../../../view/login.html'));
@@ -65,7 +64,6 @@ export const loginRoutes =
     
     express.get('/home', function(request, response) {
       // If the user is loggedin
-      console.log(request.session.loggedin)
       if (request.session.loggedin) {
         // Output username
         response.sendFile(path.join(__dirname + '../../../view/main.html'));
@@ -77,7 +75,6 @@ export const loginRoutes =
 
     express.get('/coursePage', function(request, response) {
       // If the user is loggedin
-      console.log(request.session.loggedin)
       if (request.session.loggedin) {
         // Output username
         response.sendFile(path.join(__dirname + '../../../view/course.html'));

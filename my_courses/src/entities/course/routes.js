@@ -1,5 +1,4 @@
-export const courseRoutes = 
-  function register(express, courseInstance) {
+export const courseRoutes = (express, courseInstance) => {
     
     express.post('/course/', async (req, res) => {
       const instance = await courseInstance.create(req.body)

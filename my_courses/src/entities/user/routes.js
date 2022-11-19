@@ -1,5 +1,4 @@
-export const userRoutes = 
-  function register(express, userInstance) {
+export const userRoutes = (express, userInstance) => {
     
     express.post('/user/', async (req, res) => {
       const instance = await userInstance.create(req.body)
@@ -8,7 +7,6 @@ export const userRoutes =
     });
 
     express.get('/user/:id', async (req, res) => {
-      console.log(req.params.id)
       const instance = await userInstance.findOneById(req.params.id)
 
       res.send({ success: true, data: instance })

@@ -29,7 +29,6 @@ export default class CourseInstance {
   }
 
   search(name) {
-    console.log(name)
     return this.model.find({"name": {$regex : name} })
   }
 }

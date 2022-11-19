@@ -78,7 +78,6 @@
         $("#commentForm").submit(function (e) {
            e.preventDefault();
             var form_data = $(this).serialize(); 
-			console.log(form_data)
             $.ajax({
                 type: "POST", 
                 url: "/comment",
@@ -95,9 +94,8 @@
 			dataType: 'json',   
 			success: function(result){ 
 				data = result.data
-				
 				for(i=0; i < data.length; i++){
-				$('#exerciseTable tbody').append('<tr><td>' + data[i].name + '</td><td>' + data[i].desc + '</td><td>' + data[i].course + '</td></tr>');
+					$('#exerciseTable tbody').append('<tr><td>' + data[i].name + '</td><td>' + data[i].desc + '</td><td>' + data[i].course + '</td></tr>');
 				}
 				
 			}
@@ -109,11 +107,9 @@
 			dataType: 'json',  
 			success: function(result){ 
 				data = result.data
-				console.log(data)
 				for(i=0; i < data.length; i++){
-				$('#commentTable tbody').append('<tr><td>' + data[i].user + '</td><td>' + data[i].message + '</td></tr>');
+					$('#commentTable tbody').append('<tr><td>' + data[i].user + '</td><td>' + data[i].message + '</td></tr>');
 				}
-				
 			}
 		});
     });   

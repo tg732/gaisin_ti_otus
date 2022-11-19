@@ -111,19 +111,14 @@
 			dataType: 'json',           
 			//data: {text: 'Текст'},     
 			success: function(result){ 
-				console.log(result)
 				data = result.data
-				console.log(data)
 				for(i=0; i < data.length; i++){
 				$('#courseTable tbody').append('<tr><td>' + data[i].name + '</td><td>' + data[i].desc  + '</td><td>' + '<a href="/coursePage?course=' + data[i].name + '" target=_blank>Открыть</a>' + '</td></tr>');
 				}
 				
 			},
-			complete: function(result) {
-			console.log(result)
-			},
 			error: function (error) {
-			console.log(error);
+				console.log(error);
 			}
 		});
     });   

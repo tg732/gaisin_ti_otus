@@ -13,7 +13,6 @@ export default class CommentInstance {
   }
   
   search(message) {
-    console.log(message)
     return this.model.find({"message": {$regex : message} })
   }
 

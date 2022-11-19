@@ -1,5 +1,4 @@
-export const exerciseRoutes = 
-  function register(express, exerciseInstance) {
+export const exerciseRoutes = (express, exerciseInstance) => {
     
     express.post('/exercise/', async (req, res) => {
       const instance = await exerciseInstance.create(req.body)

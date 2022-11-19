@@ -1,5 +1,4 @@
-export const commentRoutes = 
-  function register(express, commentInstance) {
+export const commentRoutes = (express, commentInstance) => {
     
     express.post('/comment/', async (req, res) => {
       const instance = await commentInstance.create(req.body)
