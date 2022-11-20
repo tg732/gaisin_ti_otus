@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ИС Постановщик задач</title>
+    <!--<link rel="stylesheet" href="style.css">-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+    <meta property="og:title" content="Заголовок страницы в OG">
+    <meta property="og:description" content="Описание страницы в OG">
+    <meta property="og:image" content="https://example.com/image.jpg">
+    <meta property="og:url" content="https://example.com/">
+  </head>
+  <body>
+    <header>
+      <h1>Документооборот</h1>
+      <p></p>
+    </header>
+    <main>
+      <article>
+        <section>
+			<h2>Список заданий</h2>
+			<p></p>
+			<table class="table" id="taskTable">
+			<thead>
+				 <tr>
+					 <th>Цель</th>
+					 <th>Руководитель</th>
+					 <th>Исполнитель</th>
+					 <th>Дата постановки</th>
+					 <th>Ссылка на документ</th>
+				 </tr>
+			 </thead>
+			<tbody>
+				
+			</tbody>
+			</table>
+			<p></p>
+        </section>
+        <section>
+			<h2>Добавить задание</h2>
+			<p></p>
+			<form id="taskForm">
+				<label for="target">
+					<!-- font awesome icon -->
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="target" placeholder="Цель" id="taskTarget" required>
+				<label for="head">
+					<!-- font awesome icon -->
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="head" placeholder="Руководитель" id="taskHead" required>
+				<label for="performer">
+					<!-- font awesome icon -->
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="performer" placeholder="Исполнитель" id="taskPerf" required>
+				<input type="submit">
+			</form>
+        </section>
+        <section>
+			<h2>Добавить документ</h2>
+			<form id="documentForm">
+				<label for="name">
+					<!-- font awesome icon -->
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="name" placeholder="Название документа" id="documentName" required>
+				<label for="task">
+					<!-- font awesome icon -->
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="task" placeholder="Номер задания" id="taskName" required>
+				<label for="filePath">
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="filePath" placeholder="Путь к документу" id="filePath" required>
+				<input type="submit">
+			</form>
+        </section>
+      </article>
+    </main>
+  </body>
+  
+  <script>
+	$(document).ready(function () {
+        $("#taskForm").submit(function (e) {
+           e.preventDefault();
+            var form_data = $(this).serialize(); 
+            $.ajax({
+                type: "POST", 
+                url: "/task",
+                data: form_data,
+                success: function () {
+                    alert("Курс добавлен!");
+                }
+            });
+        });
+		
+		$("#documentForm").submit(function (e) {
+           e.preventDefault();
+            var form_data = $(this).serialize(); 
+            $.ajax({
+                type: "POST", 
+                url: "/document",
+                data: form_data,
+                success: function () {
+                    alert("Занятие добавлено!");
+                }
+            });
+        });
+		
+		$.ajax({
+			url: '/task',         
+			method: 'get',             
+			dataType: 'json',           
+			//data: {text: 'Текст'},     
+			success: function(result){ 
+				data = result.data
+				for(i=0; i < data.length; i++){
+				$('#taskTable tbody').append('<tr><td>' + data[i].target + '</td><td>' + data[i].head  + '</td><td>' + data[i].performer  + '</td><td>' + Date(data[i].date).toString()  + '</td><td>' + '<a href="/taskPage?task=' + data[i].target + '" target=_blank>Открыть</a>' + '</td></tr>');
+				}
+				
+			},
+			error: function (error) {
+				console.log(error);
+			}
+		});
+    });   
+	
+  </script>
+</html>

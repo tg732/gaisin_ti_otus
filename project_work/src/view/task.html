@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Занятие по курсу</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+    <meta property="og:title" content="Заголовок страницы в OG">
+    <meta property="og:description" content="Описание страницы в OG">
+    <meta property="og:image" content="https://example.com/image.jpg">
+    <meta property="og:url" content="https://example.com/">
+  </head>
+  <body>
+    <header>
+      <h1>Документы</h1>
+      <p></p>
+    </header>
+    <main>
+      <article>
+        <section>
+			<h2>Каталог документов</h2>
+			<p></p>
+			<table class="table" id="documentTable">
+			<thead>
+				 <tr>
+					 <th>Название документа</th>
+					 <th>Номер задания</th>
+					 <th>Путь к файлу</th>
+				 </tr>
+			 </thead>
+				 <tbody>
+					 
+				 </tbody>
+			</table>
+			<p></p>
+        </section>
+      </article>
+    </main>
+  </body>
+  
+  <script>
+	$(document).ready(function () {
+		var myParam = location.search.split('task=')[1]
+			
+		$.ajax({
+			url: '/document/'+myParam,         
+			method: 'get',             
+			dataType: 'json',   
+			success: function(result){ 
+				data = result.data
+				for(i=0; i < data.length; i++){
+					$('#documentTable tbody').append('<tr><td>' + data[i].name + '</td><td>' + data[i].task + '</td><td>' + data[i].filePath + '</td></tr>');
+				}
+				
+			}
+		});
+    });   
+	
+  </script>
+</html>
