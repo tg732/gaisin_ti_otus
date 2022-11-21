@@ -26,11 +26,12 @@
 			<table class="table" id="taskTable">
 			<thead>
 				 <tr>
-					 <th>Цель</th>
-					 <th>Руководитель</th>
-					 <th>Исполнитель</th>
-					 <th>Дата постановки</th>
-					 <th>Ссылка на документ</th>
+					<th>Номер задания</th>
+					<th>Цель</th>
+					<th>Руководитель</th>
+					<th>Исполнитель</th>
+					<th>Дата постановки</th>
+					<th>Ссылка на документ</th>
 				 </tr>
 			 </thead>
 			<tbody>
@@ -120,7 +121,7 @@
 			success: function(result){ 
 				data = result.data
 				for(i=0; i < data.length; i++){
-				$('#taskTable tbody').append('<tr><td>' + data[i].target + '</td><td>' + data[i].head  + '</td><td>' + data[i].performer  + '</td><td>' + Date(data[i].date).toString()  + '</td><td>' + '<a href="/taskPage?task=' + data[i].target + '" target=_blank>Открыть</a>' + '</td></tr>');
+				$('#taskTable tbody').append('<tr><td>' + data[i]._id + '</td><td>' + data[i].target + '</td><td>' + data[i].head  + '</td><td>' + data[i].performer  + '</td><td>' + Date(data[i].date).toString()  + '</td><td>' + '<a href="/taskPage?task=' + data[i]._id + '" target=_blank>Открыть</a>' + '</td></tr>');
 				}
 				
 			},

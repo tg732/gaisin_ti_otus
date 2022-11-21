@@ -10,8 +10,8 @@ export default class DocumentInstance {
     return this.model.findOne({ _id: id })
   }
 
-  findAll(courseId) {
-    return this.model.find({"course": courseId })
+  findAll(taskId) {
+    return this.model.find({"task": taskId })
   }
 
   create(document) {
