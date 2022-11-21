@@ -35,7 +35,29 @@
 				 </tbody>
 			</table>
 			<p></p>
-        </section>
+		</section>
+		<section>
+			<section>
+				<h2>Добавить документ</h2>
+				<form id="documentForm">
+					<label for="name">
+						<!-- font awesome icon -->
+						<i class="fas fa-user"></i>
+					</label>
+					<input type="text" name="name" placeholder="Название документа" id="documentName" required>
+					<label for="task">
+						<!-- font awesome icon -->
+						<i class="fas fa-user"></i>
+					</label>
+					<input type="text" name="task" placeholder="Номер задания" id="taskName" required>
+					<label for="filePath">
+						<i class="fas fa-user"></i>
+					</label>
+					<input type="text" name="filePath" placeholder="Путь к документу" id="filePath" required>
+					<input type="submit">
+				</form>
+			</section>
+		</section>
       </article>
     </main>
   </body>
@@ -43,6 +65,26 @@
   <script>
 	$(document).ready(function () {
 		var myParam = location.search.split('task=')[1]
+
+		let url = 'ws://localhost:8080/ws'
+
+		let socket = new WebSocket(url);
+
+		// отправка сообщения из формы
+		/*document.forms.publish.onsubmit = function() {
+			let outgoingMessage = this.message.value;
+
+			socket.send(outgoingMessage);
+			return false;
+		};*/
+
+		// прослушка входящих сообщений
+		socket.onmessage = function(event) {
+			let incomingMessage = event.data;
+			alert(incomingMessage);
+		};
+
+		socket.onclose = event => console.log(`Closed ${event.code}`);
 			
 		$.ajax({
 			url: '/document/'+myParam,         
@@ -56,6 +98,27 @@
 				
 			}
 		});
+
+		$("#documentForm").submit(function (e) {
+           e.preventDefault();
+            var form_data = $(this).serialize(); 
+            $.ajax({
+                type: "POST", 
+                url: "/document",
+                data: form_data,
+                success: function (message) {
+					alert("Документ добавлен!");
+					
+					let outgoingMessage = message.data;
+					let sendObj = {
+						id			: outgoingMessage.id,
+						message		:"Добавлен документ"
+					}
+					console.log(outgoingMessage)
+					socket.send(JSON.stringify(sendObj));
+                }
+            });
+        });
     });   
 	
   </script>

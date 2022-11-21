@@ -61,31 +61,33 @@
 				<input type="submit">
 			</form>
         </section>
-        <section>
-			<h2>Добавить документ</h2>
-			<form id="documentForm">
-				<label for="name">
-					<!-- font awesome icon -->
-					<i class="fas fa-user"></i>
-				</label>
-				<input type="text" name="name" placeholder="Название документа" id="documentName" required>
-				<label for="task">
-					<!-- font awesome icon -->
-					<i class="fas fa-user"></i>
-				</label>
-				<input type="text" name="task" placeholder="Номер задания" id="taskName" required>
-				<label for="filePath">
-					<i class="fas fa-user"></i>
-				</label>
-				<input type="text" name="filePath" placeholder="Путь к документу" id="filePath" required>
-				<input type="submit">
-			</form>
-        </section>
+        
       </article>
-    </main>
+	</main>
   </body>
   
   <script>
+
+	let url = 'ws://localhost:8080/ws'
+
+	let socket = new WebSocket(url);
+
+	// отправка сообщения из формы
+	/*document.forms.publish.onsubmit = function() {
+		let outgoingMessage = this.message.value;
+
+		socket.send(outgoingMessage);
+		return false;
+	};*/
+
+	// прослушка входящих сообщений
+	socket.onmessage = function(event) {
+		let incomingMessage = event.data;
+		alert(incomingMessage);
+	};
+
+	socket.onclose = event => console.log(`Closed ${event.code}`);
+
 	$(document).ready(function () {
         $("#taskForm").submit(function (e) {
            e.preventDefault();
@@ -94,24 +96,21 @@
                 type: "POST", 
                 url: "/task",
                 data: form_data,
-                success: function () {
-                    alert("Курс добавлен!");
+                success: function (message) {
+					alert("Задание добавлено!");
+					console.log(message)
+					let outgoingMessage = message.data;
+					let sendObj = {
+						id			: outgoingMessage.id,
+						message		:"Добавлено задание"
+					}
+					console.log(outgoingMessage)
+					socket.send(JSON.stringify(sendObj));
                 }
             });
         });
 		
-		$("#documentForm").submit(function (e) {
-           e.preventDefault();
-            var form_data = $(this).serialize(); 
-            $.ajax({
-                type: "POST", 
-                url: "/document",
-                data: form_data,
-                success: function () {
-                    alert("Занятие добавлено!");
-                }
-            });
-        });
+		
 		
 		$.ajax({
 			url: '/task',         
@@ -130,6 +129,5 @@
 			}
 		});
     });   
-	
   </script>
 </html>
