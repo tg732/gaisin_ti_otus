@@ -26,7 +26,6 @@
 			<thead>
 				 <tr>
 					 <th>Название документа</th>
-					 <th>Номер задания</th>
 					 <th>Путь к файлу</th>
 				 </tr>
 			 </thead>
@@ -49,7 +48,7 @@
 						<!-- font awesome icon -->
 						<i class="fas fa-user"></i>
 					</label>
-					<input type="text" name="task" placeholder="Номер задания" id="taskName" required>
+					<input type="text" name="task" hidden placeholder="Номер задания" id="taskName" required>
 					<label for="filePath">
 						<i class="fas fa-user"></i>
 					</label>
@@ -65,6 +64,7 @@
   <script>
 	$(document).ready(function () {
 		var myParam = location.search.split('task=')[1]
+		document.getElementById('taskName').value = myParam
 
 		let url = 'ws://localhost:8080/ws'
 
@@ -93,7 +93,7 @@
 			success: function(result){ 
 				data = result.data
 				for(i=0; i < data.length; i++){
-					$('#documentTable tbody').append('<tr><td>' + data[i].name + '</td><td>' + data[i].task + '</td><td>' + data[i].filePath + '</td></tr>');
+					$('#documentTable tbody').append('<tr><td>' + data[i].name + '</td><td>' + data[i].filePath + '</td></tr>');
 				}
 				
 			}

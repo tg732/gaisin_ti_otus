@@ -10,8 +10,8 @@ export default class UserInstance {
     return this.model.findOne({ _id: id })
   }
 
-  findAll() {
-    return this.model.find()
+  findAll(flag) {
+    return this.model.find({"isHead": flag })
   }
 
   create(user) {

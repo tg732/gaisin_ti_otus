@@ -11,7 +11,27 @@ export default class TaskInstance {
   }
 
   findAll() {
-    return this.model.find()
+    //return this.model.find()
+    //return this.model.find().populate('documents')
+
+    return this.model.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "head",
+          foreignField: "_id",
+          as: "head_tab"
+        },
+      },
+	  {
+		$lookup: {
+          from: "users",
+          localField: "performer",
+          foreignField: "_id",
+          as: "perf_tab"
+        }
+	  }
+      ])
   }
 
   create(task) {

@@ -11,6 +11,18 @@ export const userRoutes = (express, userInstance) => {
 
       res.send({ success: true, data: instance })
     });
+	
+	express.get('/userHead', async (req, res) => {
+      const instance = await userInstance.findAll(true)
+
+      res.send({ success: true, data: instance })
+    });
+	
+	express.get('/userPerformer', async (req, res) => {
+      const instance = await userInstance.findAll(false)
+
+      res.send({ success: true, data: instance })
+    });
 
     express.put('/user/:id', async (req, res) => {
       const instance = await userInstance.updateOneById(req.params.id, req.body)

@@ -4,8 +4,8 @@ const { Schema } = pkg;
 export const model = (mongoose) => {
   const Task = new Schema({
     target    : { type: String, required: true, index: true},
-    head		  : { type: String },
-    performer	: { type: String },
+    head		  : { type: Schema.Types.ObjectId },
+    performer	: { type: Schema.Types.ObjectId },
     date	    : { type: Date, default: Date.now },
   }, { autoIndex: true });
 

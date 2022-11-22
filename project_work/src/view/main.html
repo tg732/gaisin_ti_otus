@@ -13,7 +13,7 @@
     <meta property="og:image" content="https://example.com/image.jpg">
     <meta property="og:url" content="https://example.com/">
   </head>
-  <body>
+  <body style="margin-left:5px">
     <header>
       <h1>Документооборот</h1>
       <p></p>
@@ -26,7 +26,6 @@
 			<table class="table" id="taskTable">
 			<thead>
 				 <tr>
-					<th>Номер задания</th>
 					<th>Цель</th>
 					<th>Руководитель</th>
 					<th>Исполнитель</th>
@@ -43,23 +42,31 @@
         <section>
 			<h2>Добавить задание</h2>
 			<p></p>
-			<form id="taskForm">
-				<label for="target">
-					<!-- font awesome icon -->
-					<i class="fas fa-user"></i>
-				</label>
-				<input type="text" name="target" placeholder="Цель" id="taskTarget" required>
-				<label for="head">
-					<!-- font awesome icon -->
-					<i class="fas fa-user"></i>
-				</label>
-				<input type="text" name="head" placeholder="Руководитель" id="taskHead" required>
-				<label for="performer">
-					<!-- font awesome icon -->
-					<i class="fas fa-user"></i>
-				</label>
-				<input type="text" name="performer" placeholder="Исполнитель" id="taskPerf" required>
-				<input type="submit">
+			<form class="col-md-4" id="taskForm">
+				<div class="form-group">
+					<label for="target">
+						<!-- font awesome icon -->
+						<i class="fas fa-user"></i>
+					</label>
+					<input class="form-control" type="text" name="target" placeholder="Цель" id="taskTarget" required>
+				</div><br>
+				<div class="form-group">
+					<label for="head">
+						<!-- font awesome icon -->
+						Руководитель:
+					</label>
+					<select class="form-control" name="head" id="taskHead">
+					</select>
+				</div><br>
+				<div class="form-group">
+					<label for="performer">
+						<!-- font awesome icon -->
+						<i class="fas fa-user">Исполнитель:</i>
+					</label>
+					<select class="form-control" name="performer" id="taskPerf">
+					</select>
+				</div><br>
+				<input class="btn btn-primary" type="submit">
 			</form>
         </section>
         
@@ -119,11 +126,55 @@
 			dataType: 'json',           
 			//data: {text: 'Текст'},     
 			success: function(result){ 
+				console.log("tesk data")
+				console.log(result)
 				data = result.data
 				for(i=0; i < data.length; i++){
-				$('#taskTable tbody').append('<tr><td>' + data[i]._id + '</td><td>' + data[i].target + '</td><td>' + data[i].head  + '</td><td>' + data[i].performer  + '</td><td>' + Date(data[i].date).toString()  + '</td><td>' + '<a href="/taskPage?task=' + data[i]._id + '" target=_blank>Открыть</a>' + '</td></tr>');
+				$('#taskTable tbody').append('<tr><td>' + data[i].target + '</td><td>' + data[i].head_tab[0].login  + '</td><td>' + data[i].perf_tab[0].login  + '</td><td>' + new Date(data[i].date).toLocaleDateString('ru-RU')  + '</td><td>' + '<a href="/taskPage?task=' + data[i]._id + '" target=_blank>Открыть</a>' + '</td></tr>');
 				}
 				
+			},
+			error: function (error) {
+				console.log(error);
+			}
+		});
+		
+		$.ajax({
+			url: '/userHead',         
+			method: 'get',             
+			dataType: 'json',     
+			success: function(result){ 
+				console.log("head data")
+				console.log(result)
+				data = result.data
+				select = document.getElementById('taskHead');
+				for (var i = 0; i<result.data.length; i++){
+					var opt = document.createElement('option');
+					opt.value = result.data[i]._id.toString();
+					opt.innerHTML = result.data[i].login;
+					select.appendChild(opt);
+				}
+			},
+			error: function (error) {
+				console.log(error);
+			}
+		});
+		
+		$.ajax({
+			url: '/userPerformer',         
+			method: 'get',             
+			dataType: 'json',    
+			success: function(result){ 
+				console.log("perf data")
+				console.log(result)
+				data = result.data
+				select = document.getElementById('taskPerf');
+				for (var i = 0; i<result.data.length; i++){
+					var opt = document.createElement('option');
+					opt.value = result.data[i]._id.toString();
+					opt.innerHTML = result.data[i].login;
+					select.appendChild(opt);
+				}
 			},
 			error: function (error) {
 				console.log(error);
