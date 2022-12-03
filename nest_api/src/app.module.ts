@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './Users/Users.module';
 import * as path from 'path';
+import { AdminsModule } from './admins/admins.module';
+
 @Module({
   imports: [
     ConfigModule.load(path.resolve(__dirname, 'config', '*.{ts,js}')),
@@ -21,6 +23,7 @@ import * as path from 'path';
       })
     }),
     UsersModule,
+    AdminsModule,
   ],
   controllers: [
     AppController,
