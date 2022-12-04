@@ -15,6 +15,7 @@ import { AdminsController } from './admins.controller';
 import { AdminEntity } from './admin.entity';
 import { AdminsService } from './admins.service';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([AdminEntity]),
@@ -25,5 +26,8 @@ import { AdminsService } from './admins.service';
   providers: [
     AdminsService,
   ],
+  exports: [
+    AdminsService,
+  ]
 })
 export class AdminsModule { }

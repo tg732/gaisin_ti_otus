@@ -14,7 +14,10 @@ export class AdminsService extends TypeOrmCrudService<AdminEntity> {
   }
 
   async findAdmin(param): Promise<AdminEntity> {
-    const record = await this.repository.findOne(param);
+    const record = await this.repository.findOneBy({
+      login: param[0],
+      password: param[1]
+    });
     //this.checkNotFound(record);
     return record;
   }
